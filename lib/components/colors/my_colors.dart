@@ -8,5 +8,9 @@ class MyColors {
   static const Color grey2 = Color(0xFF696969);
   static const Color black = Colors.black;
   static const Color pink = Color(0xFFE54660);
+  static const Color pink2 = Color(0xFFF6EAEC);
   static const Color infraRed = Color(0xFFFDF0F3);
+  static const Color colorFilter1 = Color(0xFF525252);
+  static const Color colorFilter2 = Color(0xFFCCCCCC);
+  static const Color colorFilter3 = Color(0xFFFFFFFF);
 }

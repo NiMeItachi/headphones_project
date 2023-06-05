@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../database/product.dart';
 import '../colors/my_colors.dart';
 
-class CustomProduct extends StatelessWidget {
-  final String imgLink;
+class CustomProduct extends StatefulWidget {
+  final Product product;
 
   const CustomProduct({
     super.key,
-    required this.imgLink,
+    required this.product,
   });
 
+  @override
+  State<CustomProduct> createState() => _CustomProductState();
+}
+
+class _CustomProductState extends State<CustomProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,17 +38,19 @@ class CustomProduct extends StatelessWidget {
           Container(
             width: 108,
             height: 108,
-            margin: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 10),
-            decoration: const BoxDecoration(
+            margin:
+            const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 10),
+            decoration: BoxDecoration(
               color: MyColors.infraRed,
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Image.asset(imgLink),
+            child: Image.asset(widget.product.imgLink),
           ),
           // Product: details
           Container(
             width: 190,
             height: 128,
-            margin: const EdgeInsets.only(top: 15, bottom: 15, left: 15),
+            margin: const EdgeInsets.only(top: 10, bottom: 15, left: 15),
             child: Column(
               children: [
                 // Product: name
@@ -66,26 +74,20 @@ class CustomProduct extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: Material(
                         child: Container(
-                          width: 25,
-                          height: 25,
-                          decoration: BoxDecoration(
-                            color: MyColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                offset: Offset(0, 1),
-                                blurRadius: 4,
-                                color: MyColors.white2,
-                              )
-                            ],
-                          ),
+                          alignment: Alignment.center,
+                          width: 30,
+                          height: 30,
                           child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset(
-                              "assets/icons/ic_favourite.png",
-                              color: Colors.black,
-                              scale: 1.1,
+                            onPressed: () {
+                              setState(() {
+                                widget.product.selected ? widget.product.selected = false : widget.product.selected = true;
+                              });
+                            },
+                            style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(MyColors.white)
                             ),
+                            iconSize: 16,
+                            icon: Icon(widget.product.selected ? Icons.favorite : Icons.favorite_border, color: widget.product.selected ? Colors.red : Colors.black,),
                           ),
                         ),
                       ),
@@ -125,13 +127,16 @@ class CustomProduct extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(MyColors.pink),
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                          minimumSize: MaterialStateProperty.all(const Size(65, 28)),
-
+                          backgroundColor:
+                          MaterialStateProperty.all(MyColors.pink),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          minimumSize:
+                          MaterialStateProperty.all(const Size(65, 28)),
                         ),
                         child: const Text(
-                          "BUY",
+                          "Buy",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 11,

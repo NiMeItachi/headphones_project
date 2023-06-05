@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:headphones_project/components/colors/my_colors.dart';
+import 'package:headphones_project/database/categoryProduct.dart';
+import 'package:headphones_project/database/product.dart';
 import '../components/buttons/category_button.dart';
 import '../components/custom product/custom_product.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int selectedItemIndex=0;
+  bool selectedItem=false;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +97,9 @@ class HomePage extends StatelessWidget {
               ),
               // Recommendation
               Container(
-                margin: const EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 0),
                 width: MediaQuery.of(context).size.width,
-                height: 180,
+                height: 200,
                 child: Stack(
                   children: [
                     //Container
@@ -122,7 +134,7 @@ class HomePage extends StatelessWidget {
                             const Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(top: 20, left: 15),
+                                padding: EdgeInsets.only(top: 10, left: 15),
                                 child: Text(
                                   "10% off for One of the best\nheadphones in the world",
                                   style: TextStyle(
@@ -134,27 +146,30 @@ class HomePage extends StatelessWidget {
                             ),
                             // Button
                             Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.only(top: 16, left: 15),
-                                width: 120,
-                                height: 38,
-                                decoration: BoxDecoration(
-                                  color: MyColors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      "Order Now  >",
-                                      style: TextStyle(
-                                        color: MyColors.black,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16, left: 15),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ButtonStyle(
+                                    overlayColor: const MaterialStatePropertyAll(MyColors.white2),
+                                    backgroundColor: const MaterialStatePropertyAll(MyColors.white),
+                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                                  ),
+                                  child: const SizedBox(
+                                    width: 105,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Order Now",
+                                          style: TextStyle(
+                                            color: MyColors.black,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Icon(Icons.navigate_next, color: MyColors.black,),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -168,10 +183,10 @@ class HomePage extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(right: 5),
                         child: Image.asset(
                           "assets/images/img_headphone_1.png",
-                          scale: 0.8,
+                          scale: 0.7,
                         ),
                       ),
                     ),
@@ -196,84 +211,61 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  children: const [
-                    // Headphones
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.pink,
-                        text: "Headphones",
-                        imgLink: "assets/icons/ic_headphone.png",
+                  itemCount: categoryProducts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: GestureDetector(
+                        onTap: (){
+                          setState(() {
+                           selectedItemIndex=index;
+                           selectedItem=index==selectedItemIndex?true:false;
+
+                          });
+
+                        },
+                        child: CustomCategoryButton(
+
+                          categoryProduct: categoryProducts[index], selected: selectedItem,
+                        ),
                       ),
-                    ),
-                    // Mobile
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Mobile",
-                        imgLink: "assets/icons/ic_mobile.png",
-                      ),
-                    ),
-                    // Mouse & Keyboard
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Mouse & Keyboard",
-                        imgLink: "assets/icons/ic_mobile.png",
-                      ),
-                    ),
-                    // Computer
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Computer",
-                        imgLink: "assets/icons/ic_monitor.png",
-                      ),
-                    ),
-                    // Smart Watch
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Smart Watch",
-                        imgLink: "assets/icons/ic_clock.png",
-                      ),
-                    ),
-                    // Camera
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Camera",
-                        imgLink: "assets/icons/ic_camera.png",
-                      ),
-                    ),
-                    // Microphone
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: CustomCategoryButton(
-                        color: MyColors.white,
-                        text: "Microphone",
-                        imgLink: "assets/icons/ic_microphone.png",
-                      ),
-                    ),
-                  ],
+                    );
+                  },
+
                 ),
               ),
               // Products
-              const CustomProduct(
-                imgLink: "assets/images/img_headphone_2.png",
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/product', arguments: {
+                    "imgLink": products[0].imgLink,
+                  });
+                },
+                child: CustomProduct(
+                  product: products[0],
+                ),
               ),
-              const CustomProduct(
-                imgLink: "assets/images/img_headphone_3.png",
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/product', arguments: {
+                    "imgLink": products[1].imgLink,
+                  });
+                },
+                child: CustomProduct(
+                  product: products[1],
+                ),
               ),
-              const CustomProduct(
-                imgLink: "assets/images/img_headphone_1.png",
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pushNamed('/product', arguments: {
+                    "imgLink": products[2].imgLink,
+                  });
+                },
+                child: CustomProduct(
+                  product: products[2],
+                ),
               ),
               // Sized Box
               const SizedBox(height: 50),

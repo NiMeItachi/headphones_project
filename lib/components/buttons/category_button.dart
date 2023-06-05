@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
-
+import '../../database/categoryProduct.dart';
 import '../colors/my_colors.dart';
 
 class CustomCategoryButton extends StatelessWidget {
-  final Color color;
-  final String text;
-  final String imgLink;
+  final CategoryProduct categoryProduct;
+  bool selected;
 
-  const CustomCategoryButton({
+  CustomCategoryButton({
     super.key,
-    required this.color,
-    required this.text,
-    required this.imgLink,
+    required this.categoryProduct,
+    required this.selected,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(color),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: const BorderSide(color: MyColors.white2)
-          ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: ElevatedButton(
+        onPressed: () {
+
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(selected ? MyColors.pink : MyColors.white,),
+          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+          side: MaterialStatePropertyAll(BorderSide(color: selected ? MyColors.pink : MyColors.white2)),
         ),
-      ),
-      child: Row(
-        children: [
-          Image.asset(imgLink),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: MyColors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
+        child: Row(
+          children: [
+            Image.asset(categoryProduct.imgLink, color: selected ? MyColors.white : MyColors.black,),
+            Padding(
+              padding: const EdgeInsets.only(left: 5),
+              child: Text(
+                categoryProduct.text,
+                style: TextStyle(
+                  color: selected ? MyColors.white : MyColors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
